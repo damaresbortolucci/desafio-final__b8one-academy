@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/assets/css/reset.css">
+  <link rel="stylesheet" href="./assets/css/login.css">
+  <title>Login</title>
+</head>
+
+<body>
+
+  <section class="login">
+    <div class="login__container">
+      <h1>Olá, tudo bem? 👋</h1>
+      <p>Vamos decolar para grandes dias de vendas.</p>
+     
+      <form class="login__form" onsubmit="fazerLogin()">
+        <div class="form__email">
+          <label for="email">Seu E-mail</label>
+          <input class="form__email__input"type="email" name="email" id="email" placeholder="exemplo@email.com">
+          <span class="email__error">Este e-mail não existe, você tem outro?</span>
+        </div>
+        <div class="form__password">
+          <label for="password">Sua Senha</label>
+          <div class="form__password__input">
+            <input type="password" name="password" id="password" placeholder="Digite sua senha">
+            <img id="show-password" src="./assets/images/eye-open.png" alt="icone olho aberto">
+          </div>
+          <span class="password__error">A senha está incorreta</span>
+        </div>
+        <div class="form__options">
+          <div>
+            <input class="checkbox" type="checkbox" name="savePassword" id="savePassword">
+            <label for="savePassword">Manter conectado</label>
+          </div>
+          <a href="#">Esqueci minha senha</a>
+        </div>
+        <div>
+          <button type="submit" id="btn__login">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script src="./js/login.js"></script>
+</body>
+
+</html>

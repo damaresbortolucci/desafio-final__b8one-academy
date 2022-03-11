@@ -1,0 +1,6 @@
+<svg class="nav__link__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 21.9992C17.5228 21.9992 22 17.5221 22 11.9994C22 6.4766 17.5228 1.99951 12 1.99951C6.47715 1.99951 2 6.4766 2 11.9994C2 17.5221 6.47715 21.9992 12 21.9992Z" fill="#CDD2EB" stroke="#CDD2EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M15 7.99939H11.1667C9.97 7.99939 9 8.89481 9 9.99936C9 11.104 9.97 11.9993 11.1667 11.9993H12.8333C14.03 11.9993 15 12.8947 15 13.9993C15 15.1039 14.03 15.9993 12.8333 15.9993H9" stroke="#425DC7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 5.99951V7.99951" stroke="#425DC7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 15.9993L12 17.9993" stroke="#425DC7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
