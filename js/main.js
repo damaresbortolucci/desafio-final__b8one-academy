@@ -30,25 +30,6 @@ async function fetchDataSales() {
 
 
 
-function loadMenu(){
-  var dropdown = document.getElementsByClassName("dropdown-btn"); 
-  var i;
-  
-  for (i = 0; i < dropdown.length; i++) {
-    dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "flex") {
-      dropdownContent.style.display = "none";
-    } else {
-      dropdownContent.style.display = "flex";
-    }
-  });
-  }
-}
-
-
-
 function populateUser(user) {
   const organizationName = document.querySelector(".header__logo__span");
   organizationName.insertAdjacentText("beforeend", user.organization);
@@ -165,7 +146,7 @@ function populateMenu(menu){
           </svg>
         </a>
       </li>
-      <div class="dropdown-container">
+      <div class="dropdown-container hide">
       ${menuItens[index].submenu.map(el => `<a href="#">${el}</a>`).join(" ")}
       </div>
     `
@@ -182,11 +163,35 @@ function populateMenu(menu){
         `
     }
   });
-  console.log(menuArray)
-
   const listHtml = menuArray.join(" ");
-  console.log(listHtml)
   ListUl.insertAdjacentHTML("beforeend", listHtml);
+}
+
+
+function loadMenu(){
+  const dropdown = document.getElementsByClassName("dropdown-btn"); 
+  const drop2 = document.querySelectorAll('.dropdown')
+  let i;
+  
+  for (i = 0; i < dropdown.length; i++) {
+    dropdown[i].addEventListener("click", function(){
+      this.classList.toggle("nav__link--active");
+      let dropdownContent = this.nextElementSibling;
+      dropdownContent.classList.toggle('hide')
+    });
+  }
+}
+
+
+function dataSumaryMenuActive(){
+  const periodesBtn = document.querySelectorAll('.data-summary__nav__item')
+
+  periodesBtn.forEach(el => {
+    el.addEventListener('click', function(){
+      periodesBtn.forEach(item => item.classList.remove('data-summary--active'))
+      this.classList.add('data-summary--active')
+    })
+  })
 }
 
 
@@ -220,13 +225,13 @@ function populateProducts(products) {
       
     const valueToString =  (product.price).toString()
     const result = valueToString.slice(0,4)
-    var formatter = new Intl.NumberFormat('pt-BR', {
+    let formatter = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
       currency: 'BRL',
       minimumFractionDigits: 2,
     });
-    var valor = parseFloat(result);
-    var price = formatter.format(valor); 
+    let valor = parseFloat(result);
+    let price = formatter.format(valor); 
 
     return `
         <ul class="table__item">
@@ -403,13 +408,14 @@ async function main(){
   const dataRnking = await fetchDataRanking();
   const dataProducts = await fetchDataProducts();
 
-  populateUser(dataUser)
-  populateMenu(dataMenu.menuTree)
-  populateSales(dataSales)
-  populateRanking(dataRnking.resellers)
-  populateRankingScroll(dataRnking.resellers)
-  populateProducts(dataProducts.products)
-  loadMenu()
+  populateUser(dataUser);
+  populateMenu(dataMenu.menuTree);
+  populateSales(dataSales);
+  populateRanking(dataRnking.resellers);
+  populateRankingScroll(dataRnking.resellers);
+  populateProducts(dataProducts.products);
+  loadMenu();
+  dataSumaryMenuActive();
 }
 
 main();

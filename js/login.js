@@ -57,10 +57,3 @@ showPasswordBtn.onclick = () => {
     showPasswordBtn.src = "./assets/images/eye-open.png"
   }
 }
-
-
-
-
-
-
-
