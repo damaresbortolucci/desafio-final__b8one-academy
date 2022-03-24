@@ -20,6 +20,7 @@ Dados para login no formulário:
 - Desenvolver um dashboard conforme protótipo que se encontra no [figma](https://www.figma.com/file/F4d4sysbY6agIpFk0sHLMr/Prova-Academy---Fase-2?node-id=0%3A1)
 - Ter um formulário de login com conexão a API para validação de usuário.
 - Consumo de API para alimentar os dados apresentados na tela do dashboard.
+- Ser responsivo
 
 
 ### 🌐 Links de acesso
