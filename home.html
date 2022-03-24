@@ -48,29 +48,61 @@
         </svg>
         <div class="alert"></div>
         <div class="notification__admin__dropdown">
-          <a href="#"></a>
-          <a href="#"></a>
-          <a href="#"></a>
-        </div>
-      </div>
-      <div class="header__notification__user">
-       <!--  <img id="user_image" src=""> -->
-        <span id="user_name"></span>
-        <div class="notification__user__dropdown">
-          <div>
-            <p>
-              Olá, <span style="color: #425DC7;">Henrique</span> 👋
+          <div class="container_admin">
+            <div class="notification__welcome">
+              <span>
+                👋 Bem-vindo(a) a Hubly Retailer
+              </span>
+              <div class="alert_group">
+                <div>10 min</div>
+              </div>
+            </div>
+            <p class="">Para uma completa experiência com 
+              a Retailer, precisamos que você siga 
+              os passos abaixo.
             </p>
           </div>
-          <div>
-            <a href="#">Minha conta</a>
+          <div class="input_container">
+            <div class="input_group">
+              <input class="checkbox" type="checkbox" id="cadastrar">
+              <label for="cadastrar">Cadastrar Organização</label>
+            </div>
+            <div class="input_group">
+              <input  class="checkbox" type="checkbox" id="convidar">
+              <label for="convidar">Convidar Revendedores</label>
+            </div>
           </div>
-          <div>
-            <a href="./index.html">Sair</a>
+          <div class="container_report">
+            <div class="report_message">
+              <div>
+                <span class="img_report">📈</span>
+                <span>O seu Relatório Mensal está pronto!</span>
+              </div>
+            </div>
+            <a href="#">Ir para Relatórios</a>
           </div>
+          <div class="span_btn">Marcar como Lidas</span>  
         </div>
       </div>
+    
     </div>
+    <div class="header__notification__user">
+      <!--  <img id="user_image" src=""> -->
+       <span id="user_name"></span>
+       <div class="notification__user__dropdown">
+         <div>
+           <p>
+             Olá, <span style="color: #425DC7;">Henrique</span> 👋
+           </p>
+         </div>
+         <div>
+           <a href="#">Minha conta</a>
+         </div>
+         <div>
+           <a href="./index.html">Sair</a>
+         </div>
+       </div>
+     </div>
   </header>
   <main>
     <aside class="sidebar">
@@ -132,8 +164,11 @@
               </a>
             </li>
             <li class="data-summary__nav__item">
-              <a href="#">
+              <a href="#" class="custom-calendar">
                 Personalizado
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5.00024 6.5L8.00024 9.5L11.0002 6.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg> 
               </a>
             </li>
           </ul>
@@ -202,7 +237,6 @@
                   </div>
                 </div>
                 <div class="sales__chart">
-                  <!-- <canvas id="myChart" height="35"></canvas> -->
                   <div id="chart3">
                   </div>
                 </div>
@@ -221,11 +255,12 @@
                   <span class="sellers__chart__span">Mostrar</span> 
                   todos os revendedores
                 </span>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7.50024 9.75L12.0002 14.25L16.5002 9.75" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </button>
-              <div id="chart" class="sellers__chart"></div>
+              <div id="chart" class="sellers__chart">
+              </div>
             </div>
           </div>
         </div>
@@ -238,28 +273,8 @@
             </h3>
           </div>
 
-          <div class="ranking__container" id="ranking_exemplo">
-           <!--  <div class="ranking__list">
-              <span class="ranking__list__position">1°</span>
-              <div class="ranking__list__data">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="20" cy="20" r="20" fill="#F1F2F9"/>
-                  <path d="M10.6847 26V14.3636H12.4403V19.4205H18.2415V14.3636H20.0028V26H18.2415V20.9261H12.4403V26H10.6847ZM22.5597 26V14.3636H26.7074C27.6089 14.3636 28.357 14.5189 28.9517 14.8295C29.5502 15.1402 29.9972 15.5701 30.2926 16.1193C30.5881 16.6648 30.7358 17.2955 30.7358 18.0114C30.7358 18.7235 30.5862 19.3504 30.2869 19.892C29.9915 20.4299 29.5445 20.8485 28.946 21.1477C28.3513 21.447 27.6032 21.5966 26.7017 21.5966H23.5597V20.0852H26.5426C27.1108 20.0852 27.5729 20.0038 27.929 19.8409C28.2888 19.678 28.5521 19.4413 28.7188 19.1307C28.8854 18.8201 28.9688 18.447 28.9688 18.0114C28.9688 17.572 28.8835 17.1913 28.7131 16.8693C28.5464 16.5473 28.2831 16.3011 27.9233 16.1307C27.5672 15.9564 27.0994 15.8693 26.5199 15.8693H24.3153V26H22.5597ZM28.304 20.75L31.179 26H29.179L26.3608 20.75H28.304Z" fill="#425DC7"/>
-                </svg>
-                <div>
-                  <span class="ranking__list__data__name">Daniela Lira</span>
-                  <div class="ranking__list__data__pedidos">
-                   <span> 980 pedidos</span>
-                   <span>
-                     18%
-                     <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M6.99976 4.5L3.99976 1.5L0.999759 4.5" stroke="#158F2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </span>
-                  </div>
-                </div>
-              </div>
-            </div> -->
+          <div class="ranking__container" id="ranking__container">
+            <!-- aqui vem o ranking JS -->
           </div>
           <div class="ranking__button">
             <button>Ver todos</button>
@@ -267,7 +282,6 @@
         </div>
       </section>
      
-
       <section class="products">
         <div class="products__header">
           <img src="./assets/images/insights.png" alt="insights-image">
@@ -281,11 +295,11 @@
         <div class="products__table">
           <ul class="table__header">
             <li>Produto</li>
-            <li></li>
             <li>Número do Pedido</li>
             <li>Departamento</li>
             <li>Valor</li>
           </ul>
+          <!-- lista de produtos JS -->
         </div>
 
         <div class="products__pagination">
@@ -326,7 +340,6 @@
       </section>
     </div>
   </main>
-
   <script src="./js/main.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="./js/chart.js"></script>

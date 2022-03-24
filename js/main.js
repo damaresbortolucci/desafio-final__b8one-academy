@@ -166,7 +166,7 @@ function populateMenu(menu){
         </a>
       </li>
       <div class="dropdown-container">
-      ${menuItens[index].submenu.map(el => `<a href="#">${el}</a>`).join(" ")};
+      ${menuItens[index].submenu.map(el => `<a href="#">${el}</a>`).join(" ")}
       </div>
     `
     }else {
@@ -182,22 +182,32 @@ function populateMenu(menu){
         `
     }
   });
+  console.log(menuArray)
 
   const listHtml = menuArray.join(" ");
+  console.log(listHtml)
   ListUl.insertAdjacentHTML("beforeend", listHtml);
 }
 
 
 
-/* popular tabela de vendas */ /* ============= FALTA CONVERTER VARLORES */
 function populateSales(sales){
   const revenues = document.getElementById("revenues")
   const totalSales = document.getElementById("totalSales")
   const averageTicket = document.getElementById("averageTicket")
 
-  revenues.insertAdjacentText("beforeend", "R$ " + sales.revenues)
+  let formatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+  });
+
+  const revenue = formatter.format(sales.revenues/100); 
+  const average = formatter.format(sales.averageTicket/100); 
+
+  revenues.insertAdjacentText("beforeend", revenue)
   totalSales.insertAdjacentText("beforeend", sales.totalSales)
-  averageTicket.insertAdjacentText("beforeend", sales.averageTicket)
+  averageTicket.insertAdjacentText("beforeend", average)
 }
 
 
@@ -207,16 +217,27 @@ function populateProducts(products) {
   const productList = document.querySelector(".products__table");
 
   const productsArray = products.map((product, index) => {
+      
+    const valueToString =  (product.price).toString()
+    const result = valueToString.slice(0,4)
+    var formatter = new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+      minimumFractionDigits: 2,
+    });
+    var valor = parseFloat(result);
+    var price = formatter.format(valor); 
+
     return `
         <ul class="table__item">
           <li class="item-quantity">${index+1}</li>
           <li class="table__item__description">
-            <img src=${product.image} alt="imagem do produto" referrerpolicy="no-referrer">
-            <span>${product.name}</span>
+            <img class="description__img" src=${product.image} alt="imagem do produto" referrerpolicy="no-referrer">
+            <span class="description__span">${product.name}</span>
           </li>
           <li>${product.orderId}</li>
           <li>${product.department}</li>
-          <li class="item__value">${"R$ " + product.price}</li>
+          <li class="item__value">${price}</li>
         </ul>
       `;
   });
@@ -228,7 +249,6 @@ function populateProducts(products) {
 
 
 /* popular ranking revendedores */
-
 const avatarObject = {
   0: "./assets/images/avatares/hr.png",
   1: "./assets/images/avatares/dl.png",
@@ -237,8 +257,11 @@ const avatarObject = {
   4: "./assets/images/avatares/yc.png"
 }
 
+
+
 function populateRanking(resellers){
-  const list = document.getElementById('ranking_exemplo')
+  const list = document.getElementById('ranking__container')
+  
 
   const resellersArray = resellers.map((reseller, index) => {
     return `
@@ -250,12 +273,70 @@ function populateRanking(resellers){
           <span class="ranking__list__data__name">${reseller.name}</span>
           <div class="ranking__list__data__pedidos">
            <span> ${reseller.ordersCount} pedidos</span>
-           <span>
-              ${reseller.percentage}%
-             <svg width="8" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M6.99976 4.5L3.99976 1.5L0.999759 4.5" stroke="#158F2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
+             <span>
+              ${reseller.percentage == '-6%' ? 
+              ` <span class="span__value--negative">
+                ${reseller.percentage}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5.00024 6.5L8.00024 9.5L11.0002 6.5" stroke="#EB0045" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                </span>
+                `
+              : `
+              <span class="span__value--positive">
+                ${reseller.percentage}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.9998 9.5L7.99976 6.5L4.99976 9.5" stroke="#158F2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>`
+            }
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+      `
+  });
+    
+  const resellerHtml = resellersArray.join(" ");
+  list.insertAdjacentHTML("beforeend", resellerHtml);
+}
+
+
+/* FUNCTION CRIADA APENAS PARA DEMOSTRAR O SCROLL NA TABELA DE RANKING FUNCIONANDO*/
+function populateRankingScroll(resellers){
+
+  const list = document.getElementById('ranking__container')
+  const position = [6,7,8,9,10]
+
+  const resellersArray = resellers.map((reseller, index) => {
+    return `
+    <div class="ranking__list">
+      <span class="ranking__list__position">${position[index]}°</span>
+      <div class="ranking__list__data">
+        <img src=${avatarObject[index]} alt="" referrerpolicy="no-referrer">
+        <div>
+          <span class="ranking__list__data__name">${reseller.name}</span>
+          <div class="ranking__list__data__pedidos">
+           <span> ${reseller.ordersCount} pedidos</span>
+             <span>
+              ${reseller.percentage == '-6%' ? 
+              ` <span class="span__value--negative">
+                ${reseller.percentage}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5.00024 6.5L8.00024 9.5L11.0002 6.5" stroke="#EB0045" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                </span>
+                `
+              : `
+              <span class="span__value--positive">
+                ${reseller.percentage}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.9998 9.5L7.99976 6.5L4.99976 9.5" stroke="#158F2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>`
+            }
+            </span>
           </div>
         </div>
       </div>
@@ -284,22 +365,32 @@ function openGraphic(evt, typeReport) {
     tab__nav__links[i].className = tab__nav__links[i].className.replace(" active", "");
   }
 
-
-  if(typeReport === 'Revendedores'){
+  if(typeReport === 'Revendedores' && window.matchMedia("(min-width:768px)").matches){
     document.getElementById("ranking").style.display = "block";
     document.getElementById("report__container--left").style.width = "calc(100% - 404px)";
     document.getElementById("report__container--left").style.marginRight = "64px";
+  }else if(typeReport === 'Revendedores' && window.matchMedia("(max-width:768px)").matches){
+    document.getElementById("ranking").style.display = "block";
+    document.querySelector(".report").style.height = "auto";
+    document.getElementById("report__container--left").style.width = "100%";
+    document.getElementById("report__container--left").style.marginRight = "0";
+  }else if(typeReport != 'Revendedores' && window.matchMedia("(max-width:768px)").matches){
+    document.querySelector(".report").style.height = "415px";
+    document.getElementById("ranking").style.display = "none";
+    document.getElementById("report__container--left").style.width = "100%";
+    document.getElementById("report__container--left").style.marginRight = "0";
   }else{
+    document.querySelector(".report").style.height = "502px";
     document.getElementById("ranking").style.display = "none";
     document.getElementById("report__container--left").style.width = "100%";
     document.getElementById("report__container--left").style.marginRight = "0";
   }
 
-  // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(typeReport).style.display = "block";
   evt.currentTarget.className += " active";
 }
 document.getElementById("defaultOpen").click();
+
 
 
 
@@ -316,6 +407,7 @@ async function main(){
   populateMenu(dataMenu.menuTree)
   populateSales(dataSales)
   populateRanking(dataRnking.resellers)
+  populateRankingScroll(dataRnking.resellers)
   populateProducts(dataProducts.products)
   loadMenu()
 }
