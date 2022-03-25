@@ -240,7 +240,7 @@ function populateProducts(products) {
             <img class="description__img" src=${product.image} alt="imagem do produto" referrerpolicy="no-referrer">
             <span class="description__span">${product.name}</span>
           </li>
-          <li>${product.orderId}</li>
+          <li>${'#'+ product.orderId}</li>
           <li>${product.department}</li>
           <li class="item__value">${price}</li>
         </ul>
