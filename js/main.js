@@ -370,16 +370,16 @@ function openGraphic(evt, typeReport) {
     tab__nav__links[i].className = tab__nav__links[i].className.replace(" active", "");
   }
 
-  if(typeReport === 'Revendedores' && window.matchMedia("(min-width:768px)").matches){
+  if(typeReport === 'Revendedores' && window.matchMedia("(min-width:900px)").matches){
     document.getElementById("ranking").style.display = "block";
     document.getElementById("report__container--left").style.width = "calc(100% - 404px)";
     document.getElementById("report__container--left").style.marginRight = "64px";
-  }else if(typeReport === 'Revendedores' && window.matchMedia("(max-width:768px)").matches){
+  }else if(typeReport === 'Revendedores' && window.matchMedia("(max-width:900px)").matches){
     document.getElementById("ranking").style.display = "block";
     document.querySelector(".report").style.height = "auto";
     document.getElementById("report__container--left").style.width = "100%";
     document.getElementById("report__container--left").style.marginRight = "0";
-  }else if(typeReport != 'Revendedores' && window.matchMedia("(max-width:768px)").matches){
+  }else if(typeReport != 'Revendedores' && window.matchMedia("(max-width:900px)").matches){
     document.querySelector(".report").style.height = "415px";
     document.getElementById("ranking").style.display = "none";
     document.getElementById("report__container--left").style.width = "100%";
