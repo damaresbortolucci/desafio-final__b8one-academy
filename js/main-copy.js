@@ -217,17 +217,13 @@ function populateSales(sales){
 
 
 
-
+/* popular tabela de produtos */
 function populateProducts(products) {
- 
-  const listTwo = products.slice(5,10).concat(products.slice(0,5))
-  const listTree = products.slice(4,10).concat(products.slice(0,4))
-  const listAllProducts = products.concat(listTwo).concat(listTree)
-
-
-  let productsArray = listAllProducts.map((product, index) => {
-
-    const valueToString = (product.price).toString()
+  const productList = document.querySelector(".products__table");
+ //let listPagination = produtos.concat(produtos).concat(produtos)
+  const productsArray = products.map((product, index) => {
+      
+    const valueToString =  (product.price).toString()
     const result = valueToString.slice(0,4)
     let formatter = new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -251,129 +247,77 @@ function populateProducts(products) {
       `;
   });
 
-
-  const html={
-    get(element){
-      return document.querySelector(element)
-    }
-  }
-
-  const state = {
-    page: 1,
-    perPage: 10,
-    totalPages: 3
-  }
-
-  const controls = {
-    next(){
-      state.page++
-
-      const lastPage = state.page > state.totalPages
-      if(lastPage){
-        state.page--
-      }
-    },
-
-    prev(){
-      state.page--
-
-      if(state.page < 1){
-        state.page++
-      }
-    },
-
-    goTo(page){
-      if(page < 1){
-        page = 1
-      }
-      state.page = +page
-
-      if(page > state.totalPages){
-        state.page = state.totalPages
-      }
-    },
-
-    createListeners(){
-      html.get('.next').addEventListener('click', ()=>{
-        controls.next()
-        update()
-      })
-
-      html.get('.prev').addEventListener('click', ()=>{
-        controls.prev()
-        update()
-      })
-    }
-  }
-
-  const list = {
-    create(item){
-      html.get('.products__table').insertAdjacentHTML("beforeend", item); 
-    },
-    update(){ 
-      html.get('.products__table').innerHTML = "";
-
-      let page = state.page -1
-      let start = page * state.perPage
-      let end = start + state.perPage
-      const paginatedItem = productsArray.slice(start, end)
-      paginatedItem.forEach(list.create)
-    }
-  }
-
-  const buttons = {
-    create(){
-      for(let i=1; i <= state.totalPages; i++ ){
-        const page = document.createElement('div')
-        page.innerHTML = i
-        page.addEventListener('click', (evt)=>{
-          const pag = evt.target.innerText
-          controls.goTo(pag)
-          update()
-        })
-        html.get('.numbers').appendChild(page)
-      }   
-    }
-  }
-
-  function update(){
-    list.update()
-  }
-
-  controls.createListeners()
-  update()
-  buttons.create()
+  const productHtml = productsArray.join(" ");
+  productList.insertAdjacentHTML("beforeend", productHtml);
 }
 
 
 
-
-/* avatares do ranking revendedores */
+/* popular ranking revendedores */
 const avatarObject = {
   0: "./assets/images/avatares/hr.png",
   1: "./assets/images/avatares/dl.png",
   2: "./assets/images/avatares/bs.png",
   3: "./assets/images/avatares/mn.png",
-  4: "./assets/images/avatares/yc.png",
-  5: "./assets/images/avatares/hr.png",
-  6: "./assets/images/avatares/dl.png",
-  7: "./assets/images/avatares/bs.png",
-  8: "./assets/images/avatares/mn.png",
-  9: "./assets/images/avatares/yc.png",
+  4: "./assets/images/avatares/yc.png"
 }
 
 
 
 function populateRanking(resellers){
   const list = document.getElementById('ranking__container')
-
-  const listRessellers = resellers.concat(resellers)
   
 
-  const resellersArray = listRessellers.map((reseller, index) => {
+  const resellersArray = resellers.map((reseller, index) => {
     return `
     <div class="ranking__list">
       <span class="ranking__list__position">${index+1}°</span>
+      <div class="ranking__list__data">
+        <img src=${avatarObject[index]} alt="" referrerpolicy="no-referrer">
+        <div>
+          <span class="ranking__list__data__name">${reseller.name}</span>
+          <div class="ranking__list__data__pedidos">
+           <span> ${reseller.ordersCount} pedidos</span>
+             <span>
+              ${reseller.percentage == '-6%' ? 
+              ` <span class="span__value--negative">
+                ${reseller.percentage}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M5.00024 6.5L8.00024 9.5L11.0002 6.5" stroke="#EB0045" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                </span>
+                `
+              : `
+              <span class="span__value--positive">
+                ${reseller.percentage}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M10.9998 9.5L7.99976 6.5L4.99976 9.5" stroke="#158F2E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>`
+            }
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+      `
+  });
+    
+  const resellerHtml = resellersArray.join(" ");
+  list.insertAdjacentHTML("beforeend", resellerHtml);
+}
+
+
+/* FUNCTION CRIADA APENAS PARA DEMOSTRAR O SCROLL NA TABELA DE RANKING FUNCIONANDO*/
+function populateRankingScroll(resellers){
+
+  const list = document.getElementById('ranking__container')
+  const position = [6,7,8,9,10]
+
+  const resellersArray = resellers.map((reseller, index) => {
+    return `
+    <div class="ranking__list">
+      <span class="ranking__list__position">${position[index]}°</span>
       <div class="ranking__list__data">
         <img src=${avatarObject[index]} alt="" referrerpolicy="no-referrer">
         <div>
@@ -464,12 +408,11 @@ async function main(){
   const dataRnking = await fetchDataRanking();
   const dataProducts = await fetchDataProducts();
 
-
-
   populateUser(dataUser);
   populateMenu(dataMenu.menuTree);
   populateSales(dataSales);
   populateRanking(dataRnking.resellers);
+  populateRankingScroll(dataRnking.resellers);
   populateProducts(dataProducts.products);
   loadMenu();
   dataSumaryMenuActive();
