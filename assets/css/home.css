@@ -600,7 +600,7 @@ h2{
   color: #555555;
 }
 
-.data-summary__period :nth-child(2){
+.period__selected{
   color: #425DC7;
 }
 

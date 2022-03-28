@@ -185,11 +185,41 @@ function loadMenu(){
 
 function dataSumaryMenuActive(){
   const periodesBtn = document.querySelectorAll('.data-summary__nav__item')
+  const period = document.querySelector('.period__selected')
+
+  let options = {day: 'numeric', month: 'long', year: 'numeric' };
+  let from = new Date();
+
 
   periodesBtn.forEach(el => {
     el.addEventListener('click', function(){
       periodesBtn.forEach(item => item.classList.remove('data-summary--active'))
       this.classList.add('data-summary--active')
+
+      let to = new Date(); 
+  
+      switch(el.innerText){
+        case 'Últimos 7 dias':
+          to.setDate(to.getDate() + 7);
+          period.innerText = from.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              to.toLocaleDateString('pt-BR', options)
+          break;
+        case 'Últimos 15 dias':
+          to.setDate(to.getDate() + 15);
+          period.innerText = from.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              to.toLocaleDateString('pt-BR', options)
+          break;
+        case 'Último mês':
+          to.setDate(to.getDate() - 30);
+          period.innerText = to.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              from.toLocaleDateString('pt-BR', options)
+          break;
+        case 'Último ano':
+          to.setDate(to.getDate() - 365);
+          period.innerText = to.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              from.toLocaleDateString('pt-BR', options)
+          break;  
+      }
     })
   })
 }
@@ -223,7 +253,7 @@ function populateProducts(products) {
   const listAllProducts = products.concat(listTwo).concat(listTree)
 
 
-  let productsArray = listAllProducts.map((product, index) => {
+  const productsArray = listAllProducts.map((product, index) => {
 
     const valueToString = (product.price).toString()
     const result = valueToString.slice(0,4)
@@ -249,20 +279,24 @@ function populateProducts(products) {
       `;
   });
 
+  createPagination(productsArray)
+}
 
 
+
+function createPagination(products){
+  
   const html={
     get(element){
       return document.querySelector(element)
     }
   }
-
+  
   const state = {
     page: 1,
     perPage: 10,
     totalPages: 3
   }
-
 
   function selectedOption(){
     let select = document.querySelector('#select')
@@ -270,7 +304,7 @@ function populateProducts(products) {
     select.addEventListener('change', () => {
       let optionValue = select.options[select.selectedIndex].value;
       state.perPage = +optionValue
-      state.totalPages = Math.ceil(productsArray.length / +optionValue)
+      state.totalPages = Math.ceil(products.length / +optionValue)
 
       update()
       buttons.create()
@@ -290,7 +324,7 @@ function populateProducts(products) {
       let start = page * state.perPage
       let end = start + state.perPage
 
-      const paginatedItem = productsArray.slice(start, end)
+      const paginatedItem = products.slice(start, end)
       paginatedItem.forEach(list.create)
     }
   }
@@ -380,14 +414,12 @@ function populateProducts(products) {
     list.update()
   }
 
-
   controls.createListeners()
   buttons.create()
   buttons.buttonListener()
   update()
   selectedOption()
 }
-
 
 
 
@@ -507,11 +539,12 @@ async function main(){
   const dataRnking = await fetchDataRanking();
   const dataProducts = await fetchDataProducts();
 
+
   populateUser(dataUser);
   populateMenu(dataMenu.menuTree);
   populateSales(dataSales);
+  populateProducts(dataProducts.products)
   populateRanking(dataRnking.resellers);
-  populateProducts(dataProducts.products);
   loadMenu();
   dataSumaryMenuActive();
 }
