@@ -264,6 +264,21 @@ function populateProducts(products) {
     totalPages: 3
   }
 
+  const list = {
+    create(item){
+      html.get('.products__table').insertAdjacentHTML("beforeend", item); 
+    },
+    update(){ 
+      html.get('.products__table').innerHTML = "";
+
+      let page = state.page -1
+      let start = page * state.perPage
+      let end = start + state.perPage
+      const paginatedItem = productsArray.slice(start, end)
+      paginatedItem.forEach(list.create)
+    }
+  }
+
   const controls = {
     next(){
       state.page++
@@ -286,8 +301,9 @@ function populateProducts(products) {
       if(page < 1){
         page = 1
       }
-      state.page = +page
 
+      state.page = +page
+   
       if(page > state.totalPages){
         state.page = state.totalPages
       }
@@ -295,44 +311,51 @@ function populateProducts(products) {
 
     createListeners(){
       html.get('.next').addEventListener('click', ()=>{
+        const botoes = document.querySelectorAll('.page-number')
+        botoes.forEach(element => {
+          botoes.forEach(item => item.classList.remove('page-number--active'))
+        });
         controls.next()
         update()
       })
 
       html.get('.prev').addEventListener('click', ()=>{
+        const botoes = document.querySelectorAll('.page-number')
+        botoes.forEach(element => {
+          botoes.forEach(item => item.classList.remove('page-number--active'))
+        });
         controls.prev()
         update()
       })
     }
   }
 
-  const list = {
-    create(item){
-      html.get('.products__table').insertAdjacentHTML("beforeend", item); 
-    },
-    update(){ 
-      html.get('.products__table').innerHTML = "";
-
-      let page = state.page -1
-      let start = page * state.perPage
-      let end = start + state.perPage
-      const paginatedItem = productsArray.slice(start, end)
-      paginatedItem.forEach(list.create)
-    }
-  }
-
   const buttons = {
     create(){
       for(let i=1; i <= state.totalPages; i++ ){
-        const page = document.createElement('div')
-        page.innerHTML = i
-        page.addEventListener('click', (evt)=>{
+        const button = document.createElement('div')
+        button.setAttribute('class', 'page-number')
+        button.innerHTML = i
+
+        button.addEventListener('click', (evt)=>{
           const pag = evt.target.innerText
-          controls.goTo(pag)
+          controls.goTo(pag, button)
           update()
         })
-        html.get('.numbers').appendChild(page)
+     
+        html.get('.numbers').appendChild(button)
       }   
+    },
+
+    buttonListener(){
+      const botoes = document.querySelectorAll('.page-number')
+      botoes.forEach(element => {
+        element.addEventListener('click', function() {
+          botoes.forEach(item => item.classList.remove('page-number--active'))
+          this.classList.add('page-number--active')
+            
+        })
+      });
     }
   }
 
@@ -343,6 +366,7 @@ function populateProducts(products) {
   controls.createListeners()
   update()
   buttons.create()
+  buttons.buttonListener()
 }
 
 

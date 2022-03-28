@@ -1239,7 +1239,7 @@ select{
   gap: 8px;
 }
 
-.numbers div,
+.page-number,
 .prev,
 .next{
   width: 24px;
@@ -1249,7 +1249,7 @@ select{
   cursor: pointer;
 }
 
-.numbers div{
+.page-number{
   background-color: #fff;
   line-height: 24px;
   font-weight: 500;
@@ -1259,12 +1259,12 @@ select{
   transition: .5s;
 }
 
-.numbers div:hover{
+.page-number:hover{
   background-color: #F1F2F9;
   color:  #425DC7;
 }
 
-.numbers div.active{
+.page-number--active{
   background-color: #425DC7;
   color:  #fff;
 }
