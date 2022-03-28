@@ -216,8 +216,6 @@ function populateSales(sales){
 }
 
 
-
-
 function populateProducts(products) {
  
   const listTwo = products.slice(5,10).concat(products.slice(0,5))
@@ -252,6 +250,7 @@ function populateProducts(products) {
   });
 
 
+
   const html={
     get(element){
       return document.querySelector(element)
@@ -264,6 +263,22 @@ function populateProducts(products) {
     totalPages: 3
   }
 
+
+  function selectedOption(){
+    let select = document.querySelector('#select')
+
+    select.addEventListener('change', () => {
+      let optionValue = select.options[select.selectedIndex].value;
+      state.perPage = +optionValue
+      state.totalPages = Math.ceil(productsArray.length / +optionValue)
+
+      update()
+      buttons.create()
+      buttons.buttonListener()
+    })
+  }
+  
+
   const list = {
     create(item){
       html.get('.products__table').insertAdjacentHTML("beforeend", item); 
@@ -274,6 +289,7 @@ function populateProducts(products) {
       let page = state.page -1
       let start = page * state.perPage
       let end = start + state.perPage
+
       const paginatedItem = productsArray.slice(start, end)
       paginatedItem.forEach(list.create)
     }
@@ -332,6 +348,8 @@ function populateProducts(products) {
 
   const buttons = {
     create(){
+      html.get('.numbers').innerHTML = ''
+
       for(let i=1; i <= state.totalPages; i++ ){
         const button = document.createElement('div')
         button.setAttribute('class', 'page-number')
@@ -339,21 +357,20 @@ function populateProducts(products) {
 
         button.addEventListener('click', (evt)=>{
           const pag = evt.target.innerText
-          controls.goTo(pag, button)
+          controls.goTo(pag)
           update()
         })
      
         html.get('.numbers').appendChild(button)
       }   
     },
-
+ 
     buttonListener(){
       const botoes = document.querySelectorAll('.page-number')
       botoes.forEach(element => {
         element.addEventListener('click', function() {
           botoes.forEach(item => item.classList.remove('page-number--active'))
           this.classList.add('page-number--active')
-            
         })
       });
     }
@@ -363,10 +380,12 @@ function populateProducts(products) {
     list.update()
   }
 
+
   controls.createListeners()
-  update()
   buttons.create()
   buttons.buttonListener()
+  update()
+  selectedOption()
 }
 
 
@@ -487,8 +506,6 @@ async function main(){
   const dataSales = await fetchDataSales();
   const dataRnking = await fetchDataRanking();
   const dataProducts = await fetchDataProducts();
-
-
 
   populateUser(dataUser);
   populateMenu(dataMenu.menuTree);
