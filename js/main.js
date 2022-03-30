@@ -34,16 +34,13 @@ function populateUser(user) {
   const organizationName = document.querySelector(".header__logo__span");
   organizationName.insertAdjacentText("beforeend", user.organization);
 
-  const userImage = document.querySelector('.header__notification__user');
-  const img = document.createElement("img");
-  img.setAttribute("src", user.photo);
-  img.setAttribute("alt", "avatar do usuário");
-  img.setAttribute("id", 'user_image');
-  img.setAttribute("referrerpolicy", "no-referrer");
-  userImage.insertAdjacentElement("beforebegin", img);
+  const userData = document.querySelector('.header__notification__user');
 
-  const userName = document.getElementById("user_name");
-  userName.insertAdjacentText("beforeend", user.username);
+  const datas = `
+                <img src=${user.photo} alt="avatar do usuário"> 
+                <span>${user.username}</span>
+                `
+  userData.insertAdjacentHTML("beforeend", datas); 
 }
 
 
@@ -128,11 +125,9 @@ const menuItens = [
 
 
 function populateMenu(menu){
-
   const ListUl = document.querySelector(".nav__list");
 
   const menuArray = menu.map((item, index) => {
-
     if(item.hasChildren){
       return `
       <li class="dropdown-btn nav__item">
@@ -170,16 +165,24 @@ function populateMenu(menu){
 
 function loadMenu(){
   const dropdown = document.getElementsByClassName("dropdown-btn"); 
-  const drop2 = document.querySelectorAll('.dropdown')
-  let i;
-  
-  for (i = 0; i < dropdown.length; i++) {
+
+  for (let i = 0; i < dropdown.length; i++) {
     dropdown[i].addEventListener("click", function(){
       this.classList.toggle("nav__link--active");
       let dropdownContent = this.nextElementSibling;
       dropdownContent.classList.toggle('hide')
     });
   }
+}
+
+
+function sidebar(){
+  const menuIcon = document.querySelector('.header__menu-toggle')
+  const sidebar = document.querySelector('.sidebar')
+
+  menuIcon.addEventListener('click', ()=>{
+    sidebar.classList.toggle('sidebar--active')
+  })
 }
 
 
@@ -197,17 +200,26 @@ function dataSumaryMenuActive(){
       this.classList.add('data-summary--active')
 
       let to = new Date(); 
+
+      let ano = new Date().getFullYear(); 
+
+      /* verifica se é bissexto */
+     /*  if(ano % 4 == 0 && ano % 100 == 0 && ano % 400 == 0){
+        '-366'
+      } */
+
+
   
       switch(el.innerText){
         case 'Últimos 7 dias':
-          to.setDate(to.getDate() + 7);
-          period.innerText = from.toLocaleDateString('pt-BR', options) + ' à ' + 
-                              to.toLocaleDateString('pt-BR', options)
+          to.setDate(to.getDate() - 7);
+          period.innerText = to.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              from.toLocaleDateString('pt-BR', options)
           break;
         case 'Últimos 15 dias':
-          to.setDate(to.getDate() + 15);
-          period.innerText = from.toLocaleDateString('pt-BR', options) + ' à ' + 
-                              to.toLocaleDateString('pt-BR', options)
+          to.setDate(to.getDate() - 15);
+          period.innerText = to.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              from.toLocaleDateString('pt-BR', options)
           break;
         case 'Último mês':
           to.setDate(to.getDate() - 30);
@@ -546,6 +558,8 @@ async function main(){
   populateProducts(dataProducts.products)
   populateRanking(dataRnking.resellers);
   loadMenu();
+  sidebar();
+  arrow()
   dataSumaryMenuActive();
 }
 
