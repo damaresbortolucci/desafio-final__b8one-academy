@@ -72,7 +72,6 @@ h2{
   animation: fadeEffect 0.8s;
 }
 
-
 .dropdown-content-help a{
   padding: 0 !important;
 }
@@ -606,17 +605,18 @@ li.nav__link--active a.nav__link svg.nav__link__dropdown{
   border-radius: 8px;
 }
 
-.information-bar div span{
+.information-bar div{
+  display: flex;
+  align-items: center;
+}
+
+.information-bar div :nth-child(2){
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
+  margin-left: 18px;
 }
 
-.information-bar :first-child{
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
 
 .information-bar__button{
   width: 219px;
@@ -657,7 +657,6 @@ li.nav__link--active a.nav__link svg.nav__link__dropdown{
 }
 
 .data-summary__nav{
-  /* height: 32px; */
   margin: 16px 0;
   line-height: 32px;
 }
@@ -1368,7 +1367,7 @@ select{
   .sidebar{
     max-width: 244px;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: #fff;
     padding: 16px;
     position: fixed;
@@ -1392,7 +1391,7 @@ select{
   }
 
   .upsell{
-    margin-top: 40px;
+    margin-top: 0;
     margin-bottom: 50px;
   }
   
@@ -1400,7 +1399,7 @@ select{
     display: block;
   }
 
-  .header__notification__user span{
+  .header__notification__user #user-name{
     display: none;
   }
 
@@ -1424,7 +1423,7 @@ select{
   }
 
   .header__notification__admin{
-    margin-right: 10px;
+    margin-right: 15px;
   }
 
   .alert{
@@ -1466,26 +1465,17 @@ select{
   }
 
   .information-bar{
-    width: calc(100% - 32px);
+    width: calc(100% - 31px);
     height: 72px;
     padding: 20px;
-    margin: 16px 16px 16px 16px !important;
+    margin: 16px !important;
   }
 
-  .information-bar svg{
-    float: left;
-    margin-right: 16px;
-  }
 
-  .information-bar div{
-    display: inline-block !important;
-    line-height: 18px;
-    font-size: 14px;
-  }
-
-  .information-bar div span{
+  .information-bar div :nth-child(2){
     font-size: 14px;
     line-height: 18px;
+    margin-left: 16px;
   }
 
 
@@ -1632,7 +1622,7 @@ select{
 
 @media screen and (max-width:768px){
 
-   /* ==========    produtos   =========*/
+  /* ==========    produtos   =========*/
 
   .products{
     margin: 16px;
@@ -1710,7 +1700,6 @@ select{
   
   .table__item__description :nth-child(1){
     order: 1;
-   
   }
   
   .table__item__description :nth-child(2){
@@ -1726,3 +1715,23 @@ select{
   }
 }
 
+
+@media screen and (max-width:360px){
+
+  .header__logo__span{
+    display: none;
+  }
+
+  .table__item__description{
+    flex-direction: column;
+    height: auto !important;
+  }
+
+  .description__span{
+    word-wrap: break-word;
+    min-width: 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    padding-left: 5px;
+  }
+}

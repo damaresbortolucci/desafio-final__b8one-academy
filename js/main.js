@@ -35,12 +35,14 @@ function populateUser(user) {
   organizationName.insertAdjacentText("beforeend", user.organization);
 
   const userData = document.querySelector('.header__notification__user');
+  const userName = document.querySelector('#user-name__dropdown')
 
   const datas = `
-                <img src=${user.photo} alt="avatar do usuário"> 
-                <span>${user.username}</span>
+                <img src=${user.photo} alt="avatar do usuário" referrerpolicy="no-referrer"> 
+                <span id="user-name">${user.username}</span>
                 `
   userData.insertAdjacentHTML("beforeend", datas); 
+  userName.insertAdjacentHTML("beforeend", user.username); 
 }
 
 
@@ -191,7 +193,7 @@ function dataSumaryMenuActive(){
   const period = document.querySelector('.period__selected')
 
   let options = {day: 'numeric', month: 'long', year: 'numeric' };
-  let from = new Date();
+  let to = new Date();
 
 
   periodesBtn.forEach(el => {
@@ -199,37 +201,34 @@ function dataSumaryMenuActive(){
       periodesBtn.forEach(item => item.classList.remove('data-summary--active'))
       this.classList.add('data-summary--active')
 
-      let to = new Date(); 
+      let from = new Date(); 
+      let fromFullYear = from.getFullYear()
 
-      let ano = new Date().getFullYear(); 
-
-      /* verifica se é bissexto */
-     /*  if(ano % 4 == 0 && ano % 100 == 0 && ano % 400 == 0){
-        '-366'
-      } */
-
-
-  
+    
       switch(el.innerText){
         case 'Últimos 7 dias':
-          to.setDate(to.getDate() - 7);
-          period.innerText = to.toLocaleDateString('pt-BR', options) + ' à ' + 
-                              from.toLocaleDateString('pt-BR', options)
+          from.setDate(from.getDate() - 6);
+          period.innerText = from.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              to.toLocaleDateString('pt-BR', options)
           break;
         case 'Últimos 15 dias':
-          to.setDate(to.getDate() - 15);
-          period.innerText = to.toLocaleDateString('pt-BR', options) + ' à ' + 
-                              from.toLocaleDateString('pt-BR', options)
+          from.setDate(from.getDate() - 14);
+          period.innerText = from.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              to.toLocaleDateString('pt-BR', options)
           break;
         case 'Último mês':
-          to.setDate(to.getDate() - 30);
-          period.innerText = to.toLocaleDateString('pt-BR', options) + ' à ' + 
-                              from.toLocaleDateString('pt-BR', options)
+          from.setDate(from.getDate() - 29);
+          period.innerText = from.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              to.toLocaleDateString('pt-BR', options)
           break;
         case 'Último ano':
-          to.setDate(to.getDate() - 365);
-          period.innerText = to.toLocaleDateString('pt-BR', options) + ' à ' + 
-                              from.toLocaleDateString('pt-BR', options)
+          if( (fromFullYear % 400 == 0) || (fromFullYear % 4==0 && fromFullYear % 100!=0) )
+            from.setDate(from.getDate() - 366);
+          else
+            from.setDate(from.getDate() - 365);
+
+          period.innerText = from.toLocaleDateString('pt-BR', options) + ' à ' + 
+                              to.toLocaleDateString('pt-BR', options)
           break;  
       }
     })
@@ -542,8 +541,6 @@ document.getElementById("defaultOpen").click();
 
 
 
-
-
 async function main(){
   const dataUser = await fetchDataUser();
   const dataMenu = await fetchDataMenu();
@@ -551,17 +548,14 @@ async function main(){
   const dataRnking = await fetchDataRanking();
   const dataProducts = await fetchDataProducts();
 
-
   populateUser(dataUser);
   populateMenu(dataMenu.menuTree);
   populateSales(dataSales);
   populateProducts(dataProducts.products)
   populateRanking(dataRnking.resellers);
+  dataSumaryMenuActive();
   loadMenu();
   sidebar();
-  arrow()
-  dataSumaryMenuActive();
 }
-
 main();
 
