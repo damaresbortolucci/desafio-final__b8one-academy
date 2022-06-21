@@ -1,6 +1,6 @@
 ## B8One Academy - Projeto Final
 
-Projeto final desenvolvido durante a formação front-end básico da B8One Academy e seleção de novos talentos para treinee.
+Projeto final desenvolvido durante a formação front-end básico da B8One Academy e seleção de novos talentos para trainee.
 
 
 Dados para login no formulário:
